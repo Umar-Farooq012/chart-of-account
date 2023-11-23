@@ -1,0 +1,55 @@
+first steps
+
+
+select 
+(SELECT nvl(COUNT(*),0)  FROM DEV_FINANCE_CHART_ACCOUNT WHERE GL_NATURE = 1  AND PARENT_ID IS NOT NULL ) 
+"ASSETS",
+
+(SELECT nvl(COUNT(*),0)  FROM DEV_FINANCE_CHART_ACCOUNT WHERE GL_NATURE = 2   AND PARENT_ID IS NOT NULL )
+ "LIABILITIES",
+
+(SELECT nvl(COUNT(*),0)  FROM DEV_FINANCE_CHART_ACCOUNT WHERE GL_NATURE = 3  AND PARENT_ID IS NOT NULL )
+ "CAPITAL",
+
+(SELECT nvl(COUNT(*),0)  FROM DEV_FINANCE_CHART_ACCOUNT WHERE GL_NATURE = 4  AND PARENT_ID IS NOT NULL )
+  "REVENUE",
+ 
+ (SELECT nvl(COUNT(*),0)  FROM DEV_FINANCE_CHART_ACCOUNT WHERE GL_NATURE = 5  AND PARENT_ID IS NOT NULL )
+  "EXPENSES" 
+
+from dual;
+
+
+
+
+
+second steps
+
+
+WITH CHARTS AS (
+SELECT DISTINCT DFCA1.* 
+FROM DEV_FINANCE_CHART_ACCOUNT DFCA1)
+--WHERE (DFCA1.ORG_ID = :P_ORG_ID
+--OR LENGTH(DFCA1.GL_CODE) != CASE WHEN DFCA1.BUSINESS_NATURE = 'DEVELOPER' OR DFCA1.BUSINESS_NATURE IS NULL THEN 15 END
+--)
+--AND (DFCA1.BUSINESS_NATURE = :P46_BUSINESS_NATURE OR LENGTH(DFCA1.GL_CODE) = 1)
+--)
+select case when connect_by_isleaf = 1 then 0 when level = 1 then 1 else -1 end as status,
+            level,
+            case when level = 0 then DFCA.GL_NATURE when level >= 1 then DFCA.GL_CODE || '-' || DFCA.ACCOUNT_TITLE end as title,
+              case when LENGTH(DFCA.GL_CODE) = 1 then 'fa-number-1'
+                when LENGTH(DFCA.GL_CODE) = 3 then 'fa-number-2'
+                when LENGTH(DFCA.GL_CODE) = 6 then 'fa-number-3'
+                when LENGTH(DFCA.GL_CODE) = 10 then 'fa-number-4'
+                when LENGTH(DFCA.GL_CODE) = 15 then 'fa-number-5'
+            else null
+            end as icon,
+             DFCA.ID  as value,
+            DFCA.PARENT_ID as tooltip,
+         'javascript:openModal(''voucher'')' as link ,
+         DFCA.ORG_ID
+
+from CHARTS DFCA 
+start with DFCA.PARENT_ID IS NULL
+connect by prior DFCA.ID = DFCA.PARENT_ID
+order siblings by DFCA.GL_NATURE
