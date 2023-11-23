@@ -1,0 +1,61 @@
+chart of account 
+
+
+
+DECLARE 
+    V_ACODE NUMBER; V_L1 NUMBER; V_L2 NUMBER; V_L3 NUMBER; V_L4 NUMBER; V_L5 NUMBER;
+    V_NEW_ACODE NUMBER;
+    V_ID NUMBER;
+BEGIN
+   
+        IF :P14_PARENT_ID IS NULL THEN
+        V_ACODE := :P14_GL_NATURE;
+        ELSIF :P14_PARENT_ID IS NOT NULL THEN
+            SELECT GL_CODE INTO V_ACODE FROM DEV_FINANCE_CHART_ACCOUNT WHERE ID = :P14_PARENT_ID ;
+     END IF;
+    IF LENGTH(V_ACODE) = 1 THEN
+           
+         SELECT MAX(GL_CODE) + 1 INTO V_L1 FROM DEV_FINANCE_CHART_ACCOUNT  WHERE PARENT_ID = V_ACODE;
+         
+            if length(V_L1) > 1 then
+             V_L1 := SUBSTR(V_L1,2,3); 
+             else V_L1 := SUBSTR(1,1,2); 
+             end if;
+        V_NEW_ACODE := :P14_GL_NATURE||LPAD(V_L1, 2, 0);
+    ELSIF LENGTH(V_ACODE) = 3 THEN
+   SELECT MAX(GL_CODE) + 1 INTO V_L2 FROM DEV_FINANCE_CHART_ACCOUNT  WHERE PARENT_ID = :P14_PARENT_ID;
+   
+       if length(V_L2) > 3 then
+             V_L2 := SUBSTR(V_L2,4,6); 
+             else V_L2 := 1; 
+             end if;
+        V_NEW_ACODE := V_ACODE||LPAD(V_L2, 3, 0);
+    ELSIF LENGTH(V_ACODE) = 6 THEN
+         SELECT MAX(GL_CODE) + 1 INTO V_L3 FROM DEV_FINANCE_CHART_ACCOUNT  WHERE PARENT_ID = :P14_PARENT_ID;
+        
+       if length(V_L3) > 6 then
+             V_L3 := SUBSTR(V_L3,7,10); 
+             else V_L3 := 1; 
+             end if;
+        V_NEW_ACODE := V_ACODE||LPAD(V_L3, 4, 0);
+    ELSIF LENGTH(V_ACODE) = 10 THEN
+         SELECT MAX(GL_CODE) + 1 INTO V_L4 FROM DEV_FINANCE_CHART_ACCOUNT  WHERE PARENT_ID = :P14_PARENT_ID; 
+         
+       if length(V_L4) > 10 then
+             V_L4 := SUBSTR(V_L4,11,15); 
+             else V_L4 := 1; 
+             end if;
+        V_NEW_ACODE := V_ACODE||LPAD(V_L4, 5, 0);
+   -- ELSIF LENGTH(V_ACODE) = 15 THEN
+  --SELECT MAX(GL_CODE) + 1 INTO V_L5 FROM DEV_FINANCE_CHART_ACCOUNT  WHERE PARENT_ID = :P14_PARENT_ID;
+  
+      -- if length(V_L5) > 15 then
+           --  V_L5 := SUBSTR(V_L5,16,21); 
+           --  else V_L5 := 1; 
+            -- end if;
+       -- V_NEW_ACODE := V_ACODE||LPAD(V_L5, 6, 0);
+   END IF;
+--  dbms_output.put_line(V_NEW_ACODE);
+         SELECT MAX(ID) INTO V_ID FROM DEV_FINANCE_CHART_ACCOUNT;
+  UPDATE DEV_FINANCE_CHART_ACCOUNT SET GL_CODE = V_NEW_ACODE,APPROVED_STATUS = 'PENDING' WHERE ID = V_ID; 
+END;
