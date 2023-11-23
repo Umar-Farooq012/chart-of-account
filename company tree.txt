@@ -1,0 +1,58 @@
+
+first steps 
+
+select 
+(SELECT nvl(COUNT(*),0)  FROM DEV_COMPANIES_REGISTRATION  ) 
+"COMPANY",
+
+(SELECT nvl(COUNT(*),0)  FROM DEV_SUB_COMPANIES_REGISTRATION )
+ "SUB COMPANY",
+
+(SELECT nvl(COUNT(*),0)  FROM DEV_DEPARTMENTS_REGISTRATION )
+ "DEPARTMENT"
+ 
+from dual;
+
+
+
+
+second steps 
+
+
+
+  with data as ( 
+select distinct('R') as link_type, null as parent, company_name as id, 'COMPANY'||'~'||company_name as name, company_id as sub_id  
+  from dev_companies_registration
+ union
+select distinct('C') as link_type, dcr.company_name as parent, dscr.sub_company_name as id, 'SUB COMPANY'||'~'||dscr.sub_company_name name, dscr.sub_company_id  as sub_id 
+  from dev_sub_companies_registration dscr,dev_companies_registration dcr 
+ where dcr.company_id=dscr.org_id
+ union
+select distinct('P') as link_type, dscr.sub_company_name as parent, ddr.dept_name as id, 'DEPARTMENT'||'~'||ddr.dept_name as name, ddr.department_id as sub_id 
+ from dev_departments_registration ddr,dev_sub_companies_registration dscr 
+where ddr.sub_company_id=dscr.sub_company_id)
+
+select case 
+       when connect_by_isleaf = 1 then 0
+       when level = 1 then 1
+       else -1
+       end as status, level, name as title, 
+       case 
+       when link_type = 'R' then 'fa-number-1'
+       when link_type = 'C' then 'fa-number-2'
+       when link_type = 'P' then 'fa-number-3'
+       end as icon, 
+       id as value, 'View' as tooltip, 
+       case 
+       when link_type = 'R'
+            then apex_util.prepare_url('f?p='||:APP_ID||':5:'||:APP_SESSION||'::NO::P5_COMPANY_ID:' || name)
+       when link_type = 'C'
+            then apex_util.prepare_url('f?p='||:APP_ID||':31:'||:APP_SESSION||'::NO::P31_SUB_COMPANY_ID:' || sub_id)
+       when link_type = 'P'
+            then apex_util.prepare_url('f?p='||:APP_ID||':19:'||:APP_SESSION||'::NO::P19_DEPARTMENT_ID:' || sub_id)
+       else null
+       end as link 
+  from data
+ start with parent is null
+connect by prior id = parent
+order siblings by name
