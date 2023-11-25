@@ -1,0 +1,84 @@
+$(document).ready(function() {
+   $('#P5_PHONE_NO').keyup(function() {
+      var phoneNo = $(this).val();
+      if (phoneNo.length === 3 || phoneNo.length === 7) {
+         phoneNo += '-';
+      }
+      $(this).val(phoneNo);
+   });
+});
+
+
+$(document).ready(function() {
+   $('#P5_MOBILE_NO').keyup(function() {
+      var mobileNo = $(this).val();
+      if (mobileNo.length === 3 || mobileNo.length === 7) {
+         mobileNo += '-';
+      }
+      $(this).val(mobileNo);
+   });
+});
+
+
+$(document).ready(function() {
+   $('#P5_CNIC').keyup(function() {
+      var cnic = $(this).val();
+      if (cnic.length === 5 || cnic.length === 13) {
+         cnic += '-';
+      }
+      $(this).val(cnic);
+   });
+});
+
+
+$(document).ready(function() {
+   $('#P5_NTN').keyup(function() {
+      var ntn = $(this).val();
+      if (ntn.length === 5 || ntn.length === 13) {
+         ntn += '-';
+      }
+      $(this).val(ntn);
+   });
+});
+
+
+$('#P5_COM_TYP').change(function(){
+    if($v('P5_COM_TYP') == 'COMPANY'){
+     apex.item('P5_PARENT').hide();
+    }
+    else{
+        apex.item('P5_PARENT').show();
+    }
+});
+
+
+$('#P5_COM_TYP').change(function(){
+    if($v('P5_COM_TYP') == 'DEPARTMENT'){
+     apex.item('P5_DIRECTOR').hide();
+     apex.item('P5_PHONE_NO').hide();
+     apex.item('P5_MOBILE_NO').hide();
+     apex.item('P5_ADDRESS').hide();
+     apex.item('P5_EMAIL').hide();
+     apex.item('P5_NTN').hide();
+     apex.item('P5_GST').hide();
+     apex.item('P5_CNIC').hide();
+     apex.item('P5_REGISTRATION_DATE').hide();
+     apex.item('P5_REMARKS').hide();
+     apex.item('P5_AREA_ID').hide();
+
+    }
+    else{
+         apex.item('P5_DIRECTOR').show();
+     apex.item('P5_PHONE_NO').show();
+     apex.item('P5_MOBILE_NO').show();
+     apex.item('P5_ADDRESS').show();
+     apex.item('P5_EMAIL').show();
+     apex.item('P5_NTN').show();
+     apex.item('P5_GST').show();
+     apex.item('P5_CNIC').show();
+     apex.item('P5_REGISTRATION_DATE').show();
+     apex.item('P5_REMARKS').show();
+     apex.item('P5_AREA_ID').show();
+    }
+});
+
