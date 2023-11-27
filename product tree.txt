@@ -1,0 +1,32 @@
+WITH CHARTS AS (
+    SELECT DISTINCT DFCA1.* 
+    FROM DEV_COMPANIES_REGISTRATION DFCA1
+)
+
+SELECT *
+FROM (
+    SELECT
+        CASE
+            WHEN connect_by_isleaf = 1 THEN 0
+            WHEN level = 1 THEN 1
+            ELSE -1
+        END AS status,
+        level,
+        CASE
+            WHEN level = 0 THEN DFCA.TYPE
+            WHEN level = 1 AND DFCA.SUB_COMPANY_ID IS NULL AND DFCA.DEPARTMENT_ID IS NULL THEN DFCA.NAME
+            WHEN level = 2 AND DFCA.DEPARTMENT_ID IS NULL THEN DFCA.NAME
+        END AS title,
+        NULL AS icon,
+        DFCA.ID AS value,
+        DFCA.SUB_COMPANY_ID AS tooltip,
+        'javascript:openModal(''voucher'')' AS link
+    FROM
+        CHARTS DFCA
+    START WITH
+        DFCA.SUB_COMPANY_ID IS NULL
+    CONNECT BY PRIOR DFCA.ID = DFCA.SUB_COMPANY_ID
+    ORDER SIBLINGS BY DFCA.TYPE, DFCA.NAME)
+
+
+
