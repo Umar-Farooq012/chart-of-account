@@ -1,0 +1,43 @@
+$('#P5_TYPE').change(function(){
+    if($v('P5_TYPE') == 'COMPANY'){
+        $x_Hide('P5_COMPANY_ID');
+        $x_Show('P5_NAME');
+        $x_Show('P5_DIRECTOR');
+        $x_Show('P5_PHONE_NO');
+        $x_Show('P5_MOBILE_NO');
+        $x_Show('P5_EMAIL');
+        $x_Show('P5_NTN');
+        $x_Show('P5_GST');
+        $x_Show('P5_CNIC');
+        $x_Show('P5_ADDRESS');
+        $x_Show('P5_REMARKS');
+        $x_Show('P5_CITY_ID');
+        $x_Show('P5_IS_ACTIVE');
+       
+    }
+    else {
+        $x_Show('P5_COMPANY_ID');
+        $x_Show('P5_NAME');
+        $x_Show('P5_DIRECTOR');
+        $x_Show('P5_PHONE_NO');
+        $x_Show('P5_MOBILE_NO');
+        $x_Show('P5_EMAIL');
+        $x_Show('P5_NTN');
+        $x_Show('P5_GST');
+        $x_Show('P5_CNIC');
+        $x_Show('P5_ADDRESS');
+        $x_Show('P5_REMARKS');
+        $x_Show('P5_CITY_ID');
+        $x_Show('P5_IS_ACTIVE');
+    }
+
+});
+
+
+function handleNumericInput(event) {
+    var output = event.target.value.replace(/\D/g, '');
+    event.target.value = output;
+}
+
+document.getElementById('P5_PHONE_NO').addEventListener('input', handleNumericInput);
+
