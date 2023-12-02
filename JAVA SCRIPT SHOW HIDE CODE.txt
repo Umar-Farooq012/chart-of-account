@@ -41,3 +41,17 @@ function handleNumericInput(event) {
 
 document.getElementById('P5_PHONE_NO').addEventListener('input', handleNumericInput);
 
+
+------------------------------------------------------------------------------------------------------
+
+
+
+
+  (document.getElementById('P25_POSTAL_CODE').addEventListener('input',function(y)
+ {
+var output = y.target.value.replace(/\D/g,'');
+ y.target.value = output;
+ }));
+
+
+
