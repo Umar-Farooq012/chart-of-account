@@ -52,6 +52,33 @@ document.getElementById('P5_PHONE_NO').addEventListener('input', handleNumericIn
 var output = y.target.value.replace(/\D/g,'');
  y.target.value = output;
  }));
+=====================================================================================================================================================
+
+
+
+
+ form item hide show code , code place in funciton and global variable
+$('#P9_CLASS').change(function(){
+    if($v('P9_CLASS') == 'CATEGORY'){
+        $x_Hide('P9_CATEGORY_ID');
+        $x_Hide('P9_TYPE');
+        $x_Hide('P9_BRAND_ID');
+        $x_Hide('P9_IMAGE');
+        $x_Show('P9_NAME');
+        $x_Show('P9_IS_ACTIVE');    
+    }
+    else {
+        $x_Show('P9_CATEGORY_ID');
+        $x_Show('P9_TYPE');
+        $x_Show('P9_BRAND_ID');
+        $x_Show('P9_IMAGE');
+        $x_Show('P9_NAME');
+        $x_Show('P9_IS_ACTIVE'); 
+       
+    }});
+
+
+
 
 
 
