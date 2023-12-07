@@ -79,6 +79,38 @@ $('#P9_CLASS').change(function(){
 
 
 
+=====================================================================================================
+
+show hide item  in faisal housing 
+
+if($v('P19_POLICY') == 'SUPER POLICY'){
+        $x_Hide('P19_SUPER_POLICY_NO');
+        $x_Hide('P19_MASTER_POLICY_NO');
+        $x_Show('P19_DOWNPAYMENT_MASTER');
+        $x_Hide('P19_DOWNPAYMENT_SUB');
+        $x_Hide('P19_CONFIRMATION');
+        $x_Hide('P19_CONFIRMATION_DAYS');
+    }
+    else if($v('P19_POLICY') == 'MASTER POLICY'){
+        $x_Show('P19_SUPER_POLICY_NO');
+        $x_Hide('P19_MASTER_POLICY_NO');
+        $x_Show('P19_DOWNPAYMENT_MASTER');
+        $x_Hide('P19_DOWNPAYMENT_SUB');
+        $x_Show('P19_CONFIRMATION');
+        $x_Show('P19_CONFIRMATION_DAYS');
+    }
+    else{
+        $x_Hide('P19_SUPER_POLICY_NO');
+        $x_Show('P19_MASTER_POLICY_NO');
+        $x_Hide('P19_DOWNPAYMENT_MASTER');
+        $x_Show('P19_DOWNPAYMENT_SUB');
+        $x_Show('P19_CONFIRMATION');
+        $x_Show('P19_CONFIRMATION_DAYS');
+    };
+
+
+
+
 
 
 
