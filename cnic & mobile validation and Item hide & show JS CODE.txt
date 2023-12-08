@@ -100,4 +100,28 @@ $('#P5_COM_TYP').change(function(){
      apex.item('P5_AREA_ID').show();
     }
 });
+=========================================================
 
+
+$('#P14_TYPE').change(function(){
+
+    if(apex.item('P14_TYPE').getValue() == 'CNIC'){
+        apex.item('P14_NTN_NO').hide();
+        apex.item('P14_CNIC_NO').show();
+
+    }
+
+    else if (apex.item('P14_TYPE').getValue() == 'NTN'){
+        apex.item('P14_CNIC_NO').hide();
+        apex.item('P14_NTN_NO').show();
+    }
+    // else{
+    //          apex.item('P14_NTN_NO').show();
+    //     apex.item('P14_CNIC_NO').hide();
+    // }
+});
+
+
+// $s mean value set in java script and $v mean value get in java script 
+
+==========================================================================================
