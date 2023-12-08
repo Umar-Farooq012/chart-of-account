@@ -9,6 +9,25 @@ $(document).ready(function() {
 });
 
 
+=====================================
+cnic must be unique
+declare 
+v_cnic varchar2(15);
+begin
+    select COUNT(*) into v_cnic from DGMS_MEMBER_REGISTRATION where CNIC_NO = nvl(trim(:P9_CNIC_NO),0) AND ORG_ID = :P_ORG_ID;
+        if  v_cnic > 0 or :P9_CNIC_NO = nvl(trim(:P9_GUARDIAN_CNIC_NO),0) 
+            or :P9_CNIC_NO = nvl(trim(:P9_DEALER_CNIC),0)  then 
+            return false;
+        else 
+            return true;
+        end if;
+         
+END;
+
+
+============================
+
+
 $(document).ready(function() {
    $('#P5_MOBILE_NO').keyup(function() {
       var mobileNo = $(this).val();
