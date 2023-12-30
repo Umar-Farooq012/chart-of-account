@@ -34,6 +34,9 @@ $('#P5_TYPE').change(function(){
 });
 
 
+============
+item just number enter not chracter
+
 function handleNumericInput(event) {
     var output = event.target.value.replace(/\D/g, '');
     event.target.value = output;
