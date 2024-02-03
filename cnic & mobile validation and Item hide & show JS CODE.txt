@@ -37,7 +37,15 @@ $(document).ready(function() {
       $(this).val(mobileNo);
    });
 });
-
+============================================================================
+                                                                                          <==     cnic code in java script
+$('#P38_CNIC').keypress(function(){
+       var cnic = $('#P38_CNIC').val();
+       if(cnic.length == 5 || cnic.length == 13){
+           $('#P38_CNIC').val($('#P38_CNIC').val() +'-');
+       }
+});
+==========================================================================
 
 $(document).ready(function() {
    $('#P5_CNIC').keyup(function() {
