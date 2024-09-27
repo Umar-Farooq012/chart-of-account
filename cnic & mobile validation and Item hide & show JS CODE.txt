@@ -7,6 +7,17 @@ $(document).ready(function() {
       $(this).val(phoneNo);
    });
 });
+======================================
+$(document).ready(function() {
+   $('#P123_GUARANTER_CONTECT').keyup(function() {
+      var phoneNo = $(this).val().replace(/-/g, ''); // Remove existing hyphens
+      if (phoneNo.length > 4) {
+         phoneNo = phoneNo.slice(0, 4) + '-' + phoneNo.slice(4); // Add hyphen after 4 digits
+      }
+      $(this).val(phoneNo);
+   });
+});
+SHOW THIS NUMBER 0312-1234567
 
 
 =====================================
